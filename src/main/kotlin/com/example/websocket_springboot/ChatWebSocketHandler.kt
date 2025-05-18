@@ -18,7 +18,7 @@ class ChatWebSocketHandler : TextWebSocketHandler() {
 
         val chatMessage = ChatMessage("User", message.payload)
         val response = TextMessage(chatMessage.content)
-        sessions.forEach { it.sendMessage(response) }
+        sessions.filter{it.isOpen && it.id != session.id}.forEach { it.sendMessage(response) }
     }
 
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
